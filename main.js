@@ -13,7 +13,7 @@ const api = axios.create({
   },
 
 });
-alert(baseURL);
+
 async function getheader(){
     const { data } = await api("trending/movie/day");
     const movie = data.results;
