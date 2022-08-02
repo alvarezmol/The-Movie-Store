@@ -305,4 +305,3 @@ function navigator(){
 getCategoriesPreview();
 getTrendingMoviesPreview(); */
 
-
