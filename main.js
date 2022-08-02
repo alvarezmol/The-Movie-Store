@@ -14,37 +14,91 @@ const api = axios.create({
 
 });
 
+
+
 async function getheader(){
+
+  const moviecont = document.querySelector('#movie');  //que me seleccione la seccion donde va a insertar el detalle de la pelicula (section id=movie) y aqui en JS le pongo como nombre moviecont
+  
+  moviecont.classList.add("inactive");
+
+  const categoriesPreview = document.querySelector('#categoriesPreview');
+  categoriesPreview.classList.remove("inactive");
+
+  const containerHeader = document.querySelector('#container_header');
+  containerHeader.classList.remove("inactive");
+
+  const categories = document.querySelector('#categories');
+  categories.classList.remove("inactive"); 
+
+  const header_title = document.querySelector('#header-title');
+  header_title.classList.remove("inactive"); 
+
+  const header_arrow = document.querySelector('#header-arrow');
+  header_arrow.classList.add("inactive"); 
+
+  const header_section = document.querySelector('#header_section');
+  header_section.className = "header_section"
+
+
+
+  
+/* const genericList1 = document.querySelector('#genericList_noScroll');
+  genericList1.id = "genericList"
+  
+  genericList1.classList.remove("inactive");  */
+ 
+
+
+
+
+
+
+
     const { data } = await api("trending/movie/day");
     const movie = data.results;
     const movie1 = movie[1];
+    console.log(movie1);
     
     const header = document.querySelector('#container_header');
-    /* header.innerHTML = ""; */
+    header.innerHTML = ""; 
 
     const movieContainer = document.createElement("div");
-    movieContainer.classList.add("movie-container");
+    movieContainer.classList.add("movie-container1");
+    const movieContainerText = document.createElement("div");
+    movieContainerText.classList.add("movie-container-text");
     const movie_title = document.createElement("div");
     movie_title.classList.add("movie_title");
+    const movie_date = document.createElement("div");
+    movie_date.classList.add("movie_data");
+    const movie_desc = document.createElement("div");
+    movie_desc.classList.add("movie_desc");
     
     const divText = document.createTextNode(movie1.original_title);
-    
+    const divDesc = document.createTextNode(movie1.overview); 
+    const divDate = document.createTextNode(movie1.release_date);
+
     const movieImg = document.createElement("img");
     movieImg.classList.add("movie-img");
     movieImg.setAttribute("alt", movie1.title);
     movieImg.setAttribute("src", "https://image.tmdb.org/t/p/original" + movie1.backdrop_path);
 
     movieContainer.appendChild(movieImg);
-    movieContainer.appendChild(movie_title);
+    movieContainerText.appendChild(movie_title);
+    movieContainerText.appendChild(movie_date);
+    movieContainerText.appendChild(movie_desc);
     header.appendChild(movieContainer);
+    header.appendChild(movieContainerText);
     movie_title.appendChild(divText);
+    movie_desc.appendChild(divDesc);
+    movie_date.appendChild(divDate);
     };
 
 async function getTrendingMoviesPreview(){
       const { data } = await api("trending/movie/day");
       const movies = data.results;
-      const genericSection = document.querySelector('#genericList');
-      genericSection.innerHTML = "";
+      const genericSection = document.querySelector(".genericList");
+      /* genericSection.innerHTML = ""; */
       
       movies.forEach(movie=>{
           
@@ -112,7 +166,7 @@ async function getCategoriesPreview(){
               movieImgcont.appendChild(movieImg);
               categoryContainer.appendChild(movieImgcont);
               movieImg.addEventListener("click", ()=>{
-                location.hash = "#" + movie.id ;
+                location.hash = "#movie=" + movie.id ;
               });
           });
           
@@ -132,8 +186,10 @@ async function getCategoriesPreview(){
 async function getmovie(){
     
       const hash = location.hash.split("#");
-      const hash1 = hash[1];
-      console.log(hash1);
+      const hasht = hash[1].split("movie=")
+      console.log(hasht);
+      const hash1 = hasht[1];
+      console.log(hasht);
       const { data } = await api("movie/" + hash1);
       console.log(data);
       const moviecont = document.querySelector('#movie');  //que me seleccione la seccion donde va a insertar el detalle de la pelicula (section id=movie) y aqui en JS le pongo como nombre moviecont
@@ -149,10 +205,23 @@ async function getmovie(){
       const categories = document.querySelector('#categories');
       categories.classList.add("inactive"); 
 
-      const genericList1 = document.querySelector('#genericList');
-      genericList1.classList.add("inactive");
+      const header_title = document.querySelector('#header-title');
+      header_title.classList.add("inactive"); 
+
+      const header_arrow = document.querySelector('#header-arrow');
+      header_arrow.classList.remove("inactive"); 
+
+      const header_section = document.querySelector('#header_section');
+      header_section.className = "header_section_movie"
+
+      const genericList1 = document.querySelector('.genericList');
+      /* genericList1.classList.add("inactive"); */
       genericList1.id = "genericList_noScroll"
       genericList1.innerHTML = "";
+
+
+
+
       
 
 
@@ -199,14 +268,41 @@ async function getmovie(){
 
 
 
+window.addEventListener("hashchange", navigator, false);
+window.addEventListener("DOMContentLoaded", navigator, false);
+
+const arroybtn = document.querySelector('#header-arrow');
+
+arroybtn.addEventListener("click", ()=>{
+location.hash = "#Home";
+});
+
+
+function navigator(){
+ 
+
+  if(location.hash.startsWith("#Home")){
+    getheader();
+    getTrendingMoviesPreview();
+    getCategoriesPreview();
+  }else if (location.hash.startsWith("#movie=")){
+    getmovie();
+  }else{
+    getheader();
+    getTrendingMoviesPreview();
+    getCategoriesPreview();
+  }
+ 
+};
 
 
 
 
 
 
-getheader();
+
+/* getheader();
 getCategoriesPreview();
-getTrendingMoviesPreview();
-window.addEventListener("hashchange", getmovie, false);
+getTrendingMoviesPreview(); */
+
 
