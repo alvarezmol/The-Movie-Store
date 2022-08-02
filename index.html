@@ -19,6 +19,14 @@
     font-family: Linux Libertine,Georgia,Times,serif;
     
   }
+
+  body{
+
+    margin-bottom:60px;
+    
+  }
+
+
   
   .header-searchForm {
   
@@ -32,7 +40,7 @@
 
 .header-title{
 color:  #118a7e;
-
+font-size: 30px;
 }
 
 .header-searchForm input {
@@ -65,7 +73,7 @@ color:  #118a7e;
 }
   .movie_title{
     position: relative;
-    margin-top: -90px;
+    margin-top: -185px;
     color: #1f6f78;
     font-weight: bold;
     font-size: 20px;
@@ -73,7 +81,7 @@ color:  #118a7e;
 
   .categories{
     color:  #118a7e;
-    margin-top: 70px;
+    margin-top: 10px;
     margin-bottom: 20px;
   }
 
@@ -113,7 +121,7 @@ color:  #118a7e;
   }
 
   #genericList_noScroll{
-  
+    display: none;
     overflow: hidden;
   }
 
@@ -133,14 +141,105 @@ color:  #118a7e;
  
     font-weight: normal;
     display: flex;
-    justify-content: space-around ;
+   
   }
+
+  .movie_data{
+    font-weight: bold;
+    margin: 10px;
+    display: flex;
+    justify-content: flex-end ;
+
+  }
+
+  footer {
+    position: fixed;
+    height: 60px;
+    background-color: #3baea0;
+    color: #93e4c1;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+    font-weight: bold;
+    font-size: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header_section{
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  color:  #118a7e;
+font-size: 30px;
+font-weight: bold;
+
+}
+
+.header-arrow{
+  color: #1f6f78;
+}
+
+.header_section_movie{
+  width: 100vw;
+  display: flex;
+  color:  #118a7e;
+font-size: 30px;
+font-weight: bold;
+}
+
+.movie-container1 {
+        position: relative;
+        padding: 0;
+        width: 100vw;
+        display: block;
+        cursor: pointer;
+        overflow: hidden;
+      } 
+      .movie-container-text {
+        opacity: 0;
+        font-size: 15px;
+        position: absolute;
+        margin-top: -250px;
+        color: black;
+        width: 100vw;
+        height: 100vh;
+  
+       
+      }
+      .movie-container-text:hover {
+        opacity: 1;
+      }
+
+      .movie-container-text:hover .movie_title {
+        opacity: 1;
+        transform: translateY(250px);
+        -webkit-transform: translateY(250px);
+      }
+      .movie-container-text:hover .movie_data {
+        opacity: 1;
+        transform: translateY(250px);
+        -webkit-transform: translateY(250px);
+      }
+      .movie-container-text:hover .movie_desc {
+        opacity: 1;
+        transform: translateY(250px);
+        -webkit-transform: translateY(250px);
+      } 
+
     </style>
 </head>
 <body>
-  <h1 class="header-title">The movie Store</h1>
+
+  <section id="header_section" class="header_section">
+  
+  <h1 class="header-title" id="header-title">The movie Store</h1>
+  <span class="header-arrow" id="header-arrow">&lt;Home</span>
+</section>
   <form id="searchForm" class="header-searchForm">
-    <input type="text" placeholder="Vengadores" />
+    <input type="text" />
     <button id="searchBtn">🔍</button>
 </form>   
   <section id="container_header" class="container_header">
@@ -159,9 +258,10 @@ color:  #118a7e;
 
 
 </section>
-
+<footer>The Movie Store</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="./main.js"></script>
 </body>
+
 </html>
