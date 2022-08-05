@@ -14,6 +14,14 @@ const api = axios.create({
 
 });
 
+const searchbotton = document.querySelector('#searchBtn');
+
+searchbotton.addEventListener("click", ()=>{
+  const searchFormInput = document.querySelector('#searchForm input');
+  
+  location.hash= "#search=" + searchFormInput.value;
+  searchMovie();
+});
 
 
 async function getheader(){
@@ -24,6 +32,7 @@ async function getheader(){
 
   const categoriesPreview = document.querySelector('#categoriesPreview');
   categoriesPreview.classList.remove("inactive");
+  categoriesPreview.innerHTML = "";
 
   const containerHeader = document.querySelector('#container_header');
   containerHeader.classList.remove("inactive");
@@ -37,24 +46,21 @@ async function getheader(){
   const header_arrow = document.querySelector('#header-arrow');
   header_arrow.classList.add("inactive"); 
 
+  const searchSection = document.querySelector('#searchsection');
+  searchSection.classList.add("inactive");
+  searchSection.innerHTML = "";
+
+   
+
   const header_section = document.querySelector('#header_section');
   header_section.className = "header_section"
 
 
 
   
-/* const genericList1 = document.querySelector('#genericList_noScroll');
-  genericList1.id = "genericList"
+  const genericList1 = document.querySelector('#genericList_noScroll');
+  genericList1.id = "genericList" 
   
-  genericList1.classList.remove("inactive");  */
- 
-
-
-
-
-
-
-
     const { data } = await api("trending/movie/day");
     const movie = data.results;
     const movie1 = movie[1];
@@ -98,7 +104,7 @@ async function getTrendingMoviesPreview(){
       const { data } = await api("trending/movie/day");
       const movies = data.results;
       const genericSection = document.querySelector(".genericList");
-      /* genericSection.innerHTML = ""; */
+ 
       
       movies.forEach(movie=>{
           
@@ -199,6 +205,9 @@ async function getmovie(){
       const categoriesPreview = document.querySelector('#categoriesPreview');
       categoriesPreview.classList.add("inactive");
 
+      const searchSection = document.querySelector(".searchsection");
+      searchSection.classList.add("inactive");
+
       const containerHeader = document.querySelector('#container_header');
       containerHeader.classList.add("inactive");
 
@@ -218,13 +227,6 @@ async function getmovie(){
       /* genericList1.classList.add("inactive"); */
       genericList1.id = "genericList_noScroll"
       genericList1.innerHTML = "";
-
-
-
-
-      
-
-
 
       const cat1 = document.querySelector('.categories1');
       cat1.classList.add("inactive");
@@ -266,7 +268,74 @@ async function getmovie(){
 };
 
 
+async function searchMovie(){
 
+  
+  const hash = location.hash.split("#");
+  const hasht = hash[1].split("search=")
+  console.log(hasht);
+  const hash1 = hasht[1];
+  console.log(hash1);
+  const { data } = await api("search/movie", {
+    params:{
+    query: hash1,
+    },
+    });
+ 
+      const movies = data.results;
+      const searchSection = document.querySelector(".searchsection");
+      searchSection.innerHTML = "";
+      const container_header = document.querySelector('#container_header');
+      container_header.classList.add("inactive"); 
+
+      const categoriesPreview = document.querySelector('#categoriesPreview');
+      categoriesPreview.classList.add("inactive"); 
+
+      const categories = document.querySelector('#categories');
+      categories.classList.add("inactive"); 
+
+      const movie = document.querySelector('#movie');
+      movie.classList.add("inactive"); 
+
+      const categories1 = document.querySelector(".categories1");
+      categories1.classList.add("inactive"); 
+
+      const header_arrow = document.querySelector("#header-arrow");
+      header_arrow.classList.remove("inactive"); 
+
+      const genericList1 = document.querySelector('.genericList');
+      /* genericList1.classList.add("inactive"); */
+      genericList1.id = "genericList_noScroll"
+      genericList1.innerHTML = "";
+
+  movies.forEach(movie=>{
+          
+  
+    const searchSection1 = document.createElement("div");
+    searchSection1.classList.add("movie-container-search");
+
+    const movieImg = document.createElement("img");
+    movieImg.classList.add("movie-img2");
+
+    movieImg.setAttribute("alt", movie.title);
+    movieImg.setAttribute("src", "https://image.tmdb.org/t/p/w300" + movie.poster_path);
+
+    searchSection1.appendChild(movieImg);
+    searchSection.appendChild(searchSection1);
+    
+});
+    
+      
+    
+
+
+
+
+
+
+
+ 
+};
 
 window.addEventListener("hashchange", navigator, false);
 window.addEventListener("DOMContentLoaded", navigator, false);
@@ -278,6 +347,7 @@ location.hash = "#Home";
 });
 
 
+
 function navigator(){
  
 
@@ -287,10 +357,13 @@ function navigator(){
     getCategoriesPreview();
   }else if (location.hash.startsWith("#movie=")){
     getmovie();
+  }else if (location.hash.startsWith("#search=")){
+    searchMovie();
   }else{
     getheader();
     getTrendingMoviesPreview();
     getCategoriesPreview();
+   
   }
  
 };
@@ -304,4 +377,5 @@ function navigator(){
 /* getheader();
 getCategoriesPreview();
 getTrendingMoviesPreview(); */
+
 
