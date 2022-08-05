@@ -43,6 +43,15 @@ color:  #118a7e;
 font-size: 30px;
 }
 
+.header-searchForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+
 .header-searchForm input {
   height: 48px;
   width: 100%;
@@ -58,7 +67,7 @@ font-size: 30px;
   border-bottom-right-radius: 8px;
   border-width: 0px;
   background-color: #3baea0;
-
+  cursor: pointer;
 }
 
   .movie-img{
@@ -191,22 +200,23 @@ font-weight: bold;
 }
 
 .movie-container1 {
-        position: relative;
+        
         padding: 0;
         width: 100vw;
         display: block;
         cursor: pointer;
         overflow: hidden;
+        margin-bottom: 80px;
       } 
       .movie-container-text {
         opacity: 0;
         font-size: 15px;
-        position: absolute;
-        margin-top: -250px;
+        position: relative;
+        /* margin-top: -250px; */
         color: black;
-        width: 100vw;
-        height: 100vh;
-  
+        /* width: 100%;
+        height: 100%; */
+        cursor: pointer;
        
       }
       .movie-container-text:hover {
@@ -215,20 +225,25 @@ font-weight: bold;
 
       .movie-container-text:hover .movie_title {
         opacity: 1;
-        transform: translateY(250px);
-        -webkit-transform: translateY(250px);
+        transform: translateY(-35px);
+        -webkit-transform: translateY(-35px);
       }
       .movie-container-text:hover .movie_data {
         opacity: 1;
-        transform: translateY(250px);
-        -webkit-transform: translateY(250px);
+        transform: translateY(-35px);
+        -webkit-transform: translateY(-35px);
       }
       .movie-container-text:hover .movie_desc {
         opacity: 1;
-        transform: translateY(250px);
-        -webkit-transform: translateY(250px);
+        transform: translateY(-35px);
+        -webkit-transform: translateY(-35px);
       } 
+.searchsection{
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
 
+
+}
     </style>
 </head>
 <body>
@@ -239,7 +254,7 @@ font-weight: bold;
   <span class="header-arrow" id="header-arrow">&lt;Home</span>
 </section>
   <form id="searchForm" class="header-searchForm">
-    <input type="text" />
+    <input type="text"/>
     <button id="searchBtn">🔍</button>
 </form>   
   <section id="container_header" class="container_header">
@@ -257,6 +272,8 @@ font-weight: bold;
    
 
 
+</section>
+<section id="searchsection" class="searchsection">
 </section>
 <footer>The Movie Store</footer>
 
