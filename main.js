@@ -34,6 +34,8 @@ async function getheader(){
   categoriesPreview.classList.remove("inactive");
   categoriesPreview.innerHTML = "";
 
+
+
   const containerHeader = document.querySelector('#container_header');
   containerHeader.classList.remove("inactive");
 
@@ -46,6 +48,14 @@ async function getheader(){
   const header_arrow = document.querySelector('#header-arrow');
   header_arrow.classList.add("inactive"); 
 
+  const relatedmoviest = document.querySelector('#relatedmoviest');
+  relatedmoviest.classList.add("inactive"); 
+  
+
+  const relatedmovies = document.querySelector('#relatedmovies');
+  relatedmovies.classList.add("inactive"); 
+  relatedmovies.innerHTML = "";
+
   const searchSection = document.querySelector('#searchsection');
   searchSection.classList.add("inactive");
   searchSection.innerHTML = "";
@@ -56,11 +66,15 @@ async function getheader(){
   header_section.className = "header_section"
 
 
+  let genericList1 = document.querySelector('#genericList_noScroll');
+  console.log(genericList1);
+  if (genericList1 === null ){
+ 
+  } else {
+  
+  genericList1.id = "genericList";
+  }
 
-  
-  const genericList1 = document.querySelector('#genericList_noScroll');
-  genericList1.id = "genericList" 
-  
     const { data } = await api("trending/movie/day");
     const movie = data.results;
     const movie1 = movie[1];
@@ -120,6 +134,9 @@ async function getTrendingMoviesPreview(){
   
           movieContainer.appendChild(movieImg);
           genericSection.appendChild(movieContainer);
+          movieImg.addEventListener("click", ()=>{
+            location.hash = "#movie=" + movie.id ;
+          });
           
       });
     
@@ -190,7 +207,7 @@ async function getCategoriesPreview(){
   };
   
 async function getmovie(){
-    
+      window.scrollTo(0, 0);
       const hash = location.hash.split("#");
       const hasht = hash[1].split("movie=")
       console.log(hasht);
@@ -219,6 +236,9 @@ async function getmovie(){
 
       const header_arrow = document.querySelector('#header-arrow');
       header_arrow.classList.remove("inactive"); 
+
+      const relatedmoviest = document.querySelector('#relatedmoviest');
+      relatedmoviest.classList.remove("inactive"); 
 
       const header_section = document.querySelector('#header_section');
       header_section.className = "header_section_movie"
@@ -264,7 +284,7 @@ async function getmovie(){
     
       movieOverview.appendChild(movieOverviewt); //inserto el overview de la pelicula en el h3 (movieOverview)
       moviecont.appendChild(moviecontdiv); //inserto el div en la seccion (moviecont)
-      
+      getrelatedmovie();
 };
 
 
@@ -273,9 +293,9 @@ async function searchMovie(){
   
   const hash = location.hash.split("#");
   const hasht = hash[1].split("search=")
-  console.log(hasht);
+ 
   const hash1 = hasht[1];
-  console.log(hash1);
+  
   const { data } = await api("search/movie", {
     params:{
     query: hash1,
@@ -303,11 +323,16 @@ async function searchMovie(){
       const header_arrow = document.querySelector("#header-arrow");
       header_arrow.classList.remove("inactive"); 
 
+      const relatedmoviest = document.querySelector('#relatedmoviest');
+      relatedmoviest.classList.remove("inactive"); 
+
       const genericList1 = document.querySelector('.genericList');
       /* genericList1.classList.add("inactive"); */
       genericList1.id = "genericList_noScroll"
       genericList1.innerHTML = "";
 
+
+      
   movies.forEach(movie=>{
           
   
@@ -322,20 +347,76 @@ async function searchMovie(){
 
     searchSection1.appendChild(movieImg);
     searchSection.appendChild(searchSection1);
+    movieImg.addEventListener("click", ()=>{
+      location.hash = "#movie=" + movie.id ;
+    });
     
 });
-    
+}
       
+async function getrelatedmovie(){
     
+  const hash = location.hash.split("#");
+  const hasht = hash[1].split("movie=")
+  
+  const hash1 = hasht[1];
+  
+  const { data } = await api("movie/" + hash1 + "/similar");    
+  
+
+  const movies = data.results;
+      const relatedSection = document.querySelector(".relatedmovies");
+      relatedSection.innerHTML = "";
+      const container_header = document.querySelector('#container_header');
+      container_header.classList.add("inactive"); 
+
+      const categoriesPreview = document.querySelector('#categoriesPreview');
+      categoriesPreview.classList.add("inactive"); 
+
+      const categories = document.querySelector('#categories');
+      categories.classList.add("inactive"); 
+
+      const movie = document.querySelector('#movie');
+      movie.classList.remove("inactive"); 
+
+      const categories1 = document.querySelector(".categories1");
+      categories1.classList.add("inactive"); 
+
+      const header_arrow = document.querySelector("#header-arrow");
+      header_arrow.classList.remove("inactive"); 
+
+      const relatedmoviest = document.querySelector('#relatedmoviest');
+      relatedmoviest.classList.remove("inactive"); 
+
+      const genericList1 = document.querySelector('.genericList');
+      /* genericList1.classList.add("inactive"); */
+      genericList1.id = "genericList_noScroll"
+      genericList1.innerHTML = "";
 
 
 
 
 
+  movies.forEach(movie=>{
+          
+  
+    const relatedSection1 = document.createElement("div");
+    relatedSection1.classList.add("movie-container-related");
 
+    const movieImg = document.createElement("img");
+    movieImg.classList.add("movie-img2");
 
- 
-};
+    movieImg.setAttribute("alt", movie.title);
+    movieImg.setAttribute("src", "https://image.tmdb.org/t/p/w300" + movie.poster_path);
+
+    relatedSection1.appendChild(movieImg);
+    relatedSection.appendChild(relatedSection1);
+    movieImg.addEventListener("click", ()=>{
+      location.hash = "#movie=" + movie.id ;
+    });
+    
+  });
+  }
 
 window.addEventListener("hashchange", navigator, false);
 window.addEventListener("DOMContentLoaded", navigator, false);
@@ -357,6 +438,7 @@ function navigator(){
     getCategoriesPreview();
   }else if (location.hash.startsWith("#movie=")){
     getmovie();
+   
   }else if (location.hash.startsWith("#search=")){
     searchMovie();
   }else{
@@ -374,8 +456,5 @@ function navigator(){
 
 
 
-/* getheader();
-getCategoriesPreview();
-getTrendingMoviesPreview(); */
 
 
